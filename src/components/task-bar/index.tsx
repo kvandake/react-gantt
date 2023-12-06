@@ -95,7 +95,7 @@ const TaskBar: React.FC<TaskBarProps> = ({ data }) => {
     },
     [store]
   )
-  const allowDrag = showDragBar && !loading
+  const allowDrag = showDragBar && !loading && !store.disabled
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -113,7 +113,7 @@ const TaskBar: React.FC<TaskBarProps> = ({ data }) => {
   const days = useMemo(() => {
     const daysWidth = Number(getDateWidth(translateX + width + moveCalc, translateX));
 
-    return `${daysWidth} ${daysWidth > 1 ? locale.days : locale.day}`
+    return `${daysWidth} ${locale.pluralizeDay(daysWidth)}`
   }, [translateX, width, moveCalc, translateX])
 
   return (

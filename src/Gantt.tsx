@@ -84,13 +84,13 @@ export interface GanttLocale {
   emptyData: string;
   today: string;
   day: string;
-  days: string;
   week: string;
   month: string;
   quarter: string;
   halfYear: string;
   firstHalf: string;
   secondHalf: string,
+  pluralizeDay: (daysWidth: number) => string,
   majorFormat: {
     day: string;
     week: string;
