@@ -1,13 +1,13 @@
 {
-  "name": "rc-gantt",
-  "version": "0.3.1",
-  "homepage": "https://ahwgs.github.io/react-gantt/#/",
+  "name": "kvandake-rc-gantt",
+  "version": "0.3.2",
+  "homepage": "https://github.com/kvandake/react-gantt",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ahwgs/react-gantt.git"
+    "url": "https://github.com/kvandake/react-gantt"
   },
   "license": "MIT",
-  "author": "ahwgs <ah_wgs@126.com>",
+  "author": "kvandake@gmail.com",
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",
   "files": [
