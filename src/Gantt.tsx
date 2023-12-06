@@ -72,6 +72,7 @@ export interface GanttProps<RecordType = DefaultRecordType> {
    * 隐藏左侧表格
    */
   hideTable?: boolean
+  TableRowComponent?: GanttContext<RecordType>['TableRowComponent']
 }
 export interface GanttRef {
   backToday: () => void
@@ -79,6 +80,8 @@ export interface GanttRef {
 }
 
 export interface GanttLocale {
+  key: string;
+  emptyData: string;
   today: string;
   day: string;
   days: string;
@@ -135,6 +138,7 @@ const GanttComponent = <RecordType extends DefaultRecordType>(props: GanttProps<
     alwaysShowTaskBar = true,
     renderLeftText,
     renderRightText,
+    TableRowComponent,
     onExpand,
     customSights = [],
     locale = {...defaultLocale},
@@ -225,15 +229,15 @@ const GanttComponent = <RecordType extends DefaultRecordType>(props: GanttProps<
   return (
     <Context.Provider value={ContextValue}>
       <Body>
-        <header>
+        <section className={'gantt-header'}>
           {!hideTable && <TableHeader />}
           <TimeAxis />
-        </header>
-        <main ref={store.mainElementRef} onScroll={store.handleScroll}>
+        </section>
+        <div className={'gantt-main'} ref={store.mainElementRef} onScroll={store.handleScroll}>
           <SelectionIndicator />
-          {!hideTable && <TableBody />}
+          {!hideTable && <TableBody TableRowComponent={TableRowComponent} />}
           <Chart />
-        </main>
+        </div>
         {!hideTable && <Divider />}
         {showBackToday && <TimeIndicator />}
         {showUnitSwitch && <TimeAxisScaleSelect />}

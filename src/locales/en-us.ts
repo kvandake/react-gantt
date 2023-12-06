@@ -1,6 +1,8 @@
 import { GanttLocale } from "../Gantt";
 
 export const enUS: GanttLocale = Object.freeze({
+  key: 'en',
+    emptyData: "No data to display",
     today: "Today",
     day: "Day",
     days: "Days",

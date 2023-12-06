@@ -2,6 +2,10 @@ import React, { createContext } from 'react'
 import GanttStore from './store'
 import { DefaultRecordType, Gantt } from './types'
 
+export interface OnRowCallbacks<RecordType = DefaultRecordType> {
+  onClick: (record: Gantt.Record<RecordType>) => void
+}
+
 export interface GanttContext<RecordType = DefaultRecordType> {
   prefixCls: string
   store: GanttStore
@@ -11,9 +15,7 @@ export interface GanttContext<RecordType = DefaultRecordType> {
   }
   showBackToday: boolean
   showUnitSwitch: boolean
-  onRow?: {
-    onClick: (record: Gantt.Record<RecordType>) => void
-  }
+  onRow?: OnRowCallbacks<RecordType>
   tableIndent: number
   barHeight: number
   expandIcon?: ({
@@ -41,6 +43,7 @@ export interface GanttContext<RecordType = DefaultRecordType> {
   onExpand?: (record: Gantt.Record<RecordType>, collapsed: boolean) => void
 
   hideTable?: boolean
+  TableRowComponent?: React.ReactComponentElement<any> | any
 }
 const context = createContext<GanttContext>({} as GanttContext)
 export default context

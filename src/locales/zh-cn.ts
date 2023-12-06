@@ -1,6 +1,8 @@
 import { GanttLocale } from "../Gantt";
 
 export const zhCN: GanttLocale = Object.freeze({
+  key: 'zh-cn',
+  emptyData: "暂无数据",
   today: "今天",
   day: "日视图",
   days: "天数",

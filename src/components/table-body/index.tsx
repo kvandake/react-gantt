@@ -1,12 +1,20 @@
 import React, { useContext, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import classNames from 'classnames'
-import Context from '../../context'
+import Context, {GanttContext} from '../../context'
 import { TOP_PADDING } from '../../constants'
 import RowToggler from './RowToggler'
 import './index.less'
 
-const TableRows = () => {
+interface TableBodyProps {
+  TableRowComponent?: GanttContext<any>['TableRowComponent']
+}
+
+const DefaultTableRow = (props: any)=> (
+  <div {...props} />
+)
+
+const TableRows: React.FC<TableBodyProps> = ({TableRowComponent = DefaultTableRow}) => {
   const { store, onRow, tableIndent, expandIcon, prefixCls, onExpand } = useContext(Context)
   const { columns, rowHeight } = store
   const columnsWidth = store.getColumnsWidth
@@ -23,7 +31,7 @@ const TableRows = () => {
           marginTop: 30,
         }}
       >
-        暂无数据
+        {store.locale.emptyData}
       </div>
     )
   }
@@ -38,7 +46,7 @@ const TableRows = () => {
           isLastChild = true
 
         return (
-          <div
+          <TableRowComponent
             key={bar.key}
             role='none'
             className={`${prefixClsTableBody}-row`}
@@ -120,7 +128,7 @@ const TableRows = () => {
                 </span>
               </div>
             ))}
-          </div>
+          </TableRowComponent>
         )
       })}
     </>
@@ -155,7 +163,7 @@ const TableBorders = () => {
 }
 const ObserverTableBorders = observer(TableBorders)
 
-const TableBody: React.FC = () => {
+const TableBody: React.FC<TableBodyProps> = ({...rest}) => {
   const { store, prefixCls } = useContext(Context)
   const handleMouseMove = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
@@ -179,7 +187,7 @@ const TableBody: React.FC = () => {
       onMouseLeave={handleMouseLeave}
     >
       <ObserverTableBorders />
-      <ObserverTableRows />
+      <ObserverTableRows {...rest} />
     </div>
   )
 }

@@ -382,7 +382,7 @@ class GanttStore {
 
     // 对可视区域内的时间进行迭代
     while (currentDate.isBetween(translateAmp - 1, endAmp + 1)) {
-      const majorKey = currentDate.format(format)
+      const majorKey = currentDate.locale(this.locale.key).format(format)
 
       let start = currentDate
       const end = getEnd(start)
@@ -415,7 +415,7 @@ class GanttStore {
         label,
         left,
         width,
-        key: startDate.format('YYYY-MM-DD HH:mm:ss'),
+        key: startDate.locale(this.locale.key).format('YYYY-MM-DD HH:mm:ss'),
       }
     })
   }
@@ -505,13 +505,13 @@ class GanttStore {
     const getMinorKey = (date: Dayjs) => {
       if (this.sightConfig.type === 'halfYear')
         return (
-          date.format(format) +
+          date.locale(this.locale.key).format(format) +
           (fstHalfYear.has(date.month())
             ? this.locale.firstHalf
             : this.locale.secondHalf)
         )
 
-      return date.format(format)
+      return date.locale(this.locale.key).format(format)
     }
 
     // 初始化当前时间
@@ -599,7 +599,7 @@ class GanttStore {
         left,
         width,
         isWeek,
-        key: startDate.format('YYYY-MM-DD HH:mm:ss'),
+        key: startDate.locale(this.locale.key).format('YYYY-MM-DD HH:mm:ss'),
       }
     })
   }
@@ -634,7 +634,9 @@ class GanttStore {
     const baseTop = TOP_PADDING + this.rowHeight / 2 - height / 2
     const topStep = this.rowHeight
 
-    const dateTextFormat = (startX: number) => dayjs(startX * pxUnitAmp).format('YYYY-MM-DD')
+    const dateTextFormat = (startX: number) => dayjs(startX * pxUnitAmp)
+      .locale(this.locale.key)
+      .format('YYYY-MM-DD')
 
     const getDateWidth = (start: number, endX: number) => {
       const startDate = dayjs(start * pxUnitAmp)
@@ -832,24 +834,25 @@ class GanttStore {
     if (type === 'move') {
       const moveTime = this.getMovedDay((translateX - oldSize.x) * this.pxUnitAmp)
       // 移动，只根据移动距离偏移
-      startDate = dayjs(oldStartDate).add(moveTime, 'day').format('YYYY-MM-DD HH:mm:ss')
-      endDate = dayjs(oldEndDate).add(moveTime, 'day').hour(23).minute(59).second(59).format('YYYY-MM-DD HH:mm:ss')
+      startDate = dayjs(oldStartDate).add(moveTime, 'day').locale(this.locale.key).format('YYYY-MM-DD HH:mm:ss')
+      endDate = dayjs(oldEndDate).add(moveTime, 'day').hour(23).minute(59).second(59).locale(this.locale.key).format('YYYY-MM-DD HH:mm:ss')
     } else if (type === 'left') {
       const moveTime = this.getMovedDay((translateX - oldSize.x) * this.pxUnitAmp)
       // 左侧移动，只改变开始时间
-      startDate = dayjs(oldStartDate).add(moveTime, 'day').format('YYYY-MM-DD HH:mm:ss')
+      startDate = dayjs(oldStartDate).add(moveTime, 'day').locale(this.locale.key).format('YYYY-MM-DD HH:mm:ss')
     } else if (type === 'right') {
       const moveTime = this.getMovedDay((width - oldSize.width) * this.pxUnitAmp)
       // 右侧移动，只改变结束时间
-      endDate = dayjs(oldEndDate).add(moveTime, 'day').hour(23).minute(59).second(59).format('YYYY-MM-DD HH:mm:ss')
+      endDate = dayjs(oldEndDate).add(moveTime, 'day').hour(23).minute(59).second(59).locale(this.locale.key).format('YYYY-MM-DD HH:mm:ss')
     } else if (type === 'create') {
       // 创建
-      startDate = dayjs(translateX * this.pxUnitAmp).format('YYYY-MM-DD HH:mm:ss')
+      startDate = dayjs(translateX * this.pxUnitAmp).locale(this.locale.key).format('YYYY-MM-DD HH:mm:ss')
       endDate = dayjs((translateX + width) * this.pxUnitAmp)
         .subtract(1)
         .hour(23)
         .minute(59)
         .second(59)
+        .locale(this.locale.key)
         .format('YYYY-MM-DD HH:mm:ss')
     }
     if (startDate === oldStartDate && endDate === oldEndDate) return
@@ -870,8 +873,8 @@ class GanttStore {
   }
 
   isToday(key: string) {
-    const now = dayjs().format('YYYY-MM-DD')
-    const target = dayjs(key).format('YYYY-MM-DD')
+    const now = dayjs().locale(this.locale.key).format('YYYY-MM-DD')
+    const target = dayjs(key).locale(this.locale.key).format('YYYY-MM-DD')
     return target === now
   }
 }
