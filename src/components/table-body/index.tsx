@@ -10,8 +10,8 @@ interface TableBodyProps {
   TableRowComponent?: GanttContext<any>['TableRowComponent']
 }
 
-const DefaultTableRow = (props: any)=> (
-  <div {...props} />
+const DefaultTableRow = ({record, ...rest}: any)=> (
+  <div {...rest} />
 )
 
 const TableRows: React.FC<TableBodyProps> = ({TableRowComponent = DefaultTableRow}) => {
@@ -49,6 +49,7 @@ const TableRows: React.FC<TableBodyProps> = ({TableRowComponent = DefaultTableRo
           <TableRowComponent
             key={bar.key}
             role='none'
+            record={bar.record}
             className={`${prefixClsTableBody}-row`}
             style={{
               height: rowHeight,
