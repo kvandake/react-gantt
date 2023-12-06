@@ -872,9 +872,10 @@ class GanttStore {
     }
   }
 
+  @action
   isToday(key: string) {
-    const now = dayjs().locale(this.locale.key).format('YYYY-MM-DD')
-    const target = dayjs(key).locale(this.locale.key).format('YYYY-MM-DD')
+    const now = dayjs().format('YYYY-MM-DD')
+    const target = dayjs(key).format('YYYY-MM-DD')
     return target === now
   }
 }
